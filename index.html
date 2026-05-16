@@ -434,7 +434,9 @@ footer{
   display:none;
   flex-direction:column;
   align-items:center;justify-content:center;
+  cursor:none;
 }
+#successOverlay.show #cur{background:var(--accent)}
 .s-circle{
   stroke-dasharray:220;stroke-dashoffset:220;
   transition:stroke-dashoffset 0.7s ease 0.2s;
@@ -806,6 +808,8 @@ function showSuccess() {
   const overlay = document.getElementById('successOverlay');
   overlay.style.display = 'flex';
   document.body.style.overflow = 'hidden';
+  document.getElementById('cur').style.background = '#e8c547';
+  document.getElementById('cur2').style.borderColor = 'rgba(232,197,71,0.5)';
   requestAnimationFrame(() => {
     requestAnimationFrame(() => {
       overlay.classList.add('show');
@@ -830,6 +834,8 @@ function closeSuccess() {
   const overlay = document.getElementById('successOverlay');
   overlay.classList.remove('show');
   overlay.style.display = 'none';
+  document.getElementById('cur').style.background = '';
+  document.getElementById('cur2').style.borderColor = '';
   document.body.style.overflow = '';
   const btn = document.getElementById('submitBtn');
   btn.querySelector('.shutter-label').textContent = 'Click to send';
