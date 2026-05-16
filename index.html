@@ -375,14 +375,46 @@ nav.scrolled{
 .f-field:focus{background:rgba(242,239,232,0.05);border-color:rgba(242,239,232,0.25)}
 textarea.f-field{resize:none;min-height:100px}
 .f-submit{
-  margin-top:2px;
-  width:100%;
-  background:var(--fg);color:var(--bg);border:none;
-  padding:18px;font-family:'Inter',sans-serif;
-  font-size:11px;font-weight:500;letter-spacing:0.2em;text-transform:uppercase;
-  cursor:none;transition:background 0.25s,color 0.25s;
+  margin-top:24px;
+  align-self:center;
+  background:none;
+  border:none;
+  cursor:pointer;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  gap:12px;
+  padding:8px;
+  transition:transform 0.15s ease;
 }
-.f-submit:hover{background:var(--accent)}
+.f-submit:hover{transform:scale(1.05)}
+.f-submit:active .shutter-inner{transform:scale(0.6)}
+.shutter-ring{
+  width:64px;height:64px;
+  border-radius:50%;
+  border:2px solid rgba(242,239,232,0.5);
+  display:flex;align-items:center;justify-content:center;
+  position:relative;
+  transition:border-color 0.2s;
+  box-shadow:0 0 0 6px rgba(242,239,232,0.04);
+}
+.f-submit:hover .shutter-ring{border-color:var(--accent);box-shadow:0 0 0 6px rgba(232,197,71,0.08)}
+.shutter-inner{
+  width:44px;height:44px;
+  border-radius:50%;
+  background:rgba(242,239,232,0.9);
+  transition:transform 0.12s ease, background 0.2s;
+}
+.f-submit:hover .shutter-inner{background:var(--accent)}
+.f-submit:active .shutter-inner{transform:scale(0.65)}
+.shutter-label{
+  font-size:10px;
+  letter-spacing:0.18em;
+  text-transform:uppercase;
+  color:rgba(242,239,232,0.3);
+  transition:color 0.2s;
+}
+.f-submit:hover .shutter-label{color:var(--accent)}
 
 footer{
   display:flex;justify-content:space-between;align-items:center;
@@ -674,7 +706,12 @@ footer{
       </div>
       <input type="text" name="project" class="f-field" placeholder="Portrait / Automotive / Other">
       <textarea name="message" class="f-field" placeholder="What's the project?"></textarea>
-      <button type="submit" class="f-submit" id="submitBtn">Send it →</button>
+      <button type="submit" class="f-submit" id="submitBtn">
+        <span class="shutter-ring">
+          <span class="shutter-inner"></span>
+        </span>
+        <span class="shutter-label">Click to send</span>
+      </button>
     </form>
   </div>
 </section>
@@ -685,8 +722,8 @@ footer{
     <circle class="s-circle" cx="40" cy="40" r="35" stroke="var(--accent)" stroke-width="1.5" fill="none" stroke-linecap="round"/>
     <polyline class="s-check" points="24,40 35,51 56,29" stroke="var(--accent)" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
   </svg>
-  <h2 class="success-title">Got it. Talk soon.</h2>
-  <p class="success-sub">I'll get back to you within 24 hours.</p>
+  <h2 class="success-title">Shutter pressed.</h2>
+  <p class="success-sub">I'll develop a reply and send it your way soon.</p>
   <button class="success-back" onclick="closeSuccess()">← Back to site</button>
 </div>
 
@@ -743,7 +780,8 @@ window.addEventListener('load',()=>{
 document.getElementById('contactForm').addEventListener('submit', async function(e) {
   e.preventDefault();
   const btn = document.getElementById('submitBtn');
-  btn.textContent = 'Sending...';
+  const label = btn.querySelector('.shutter-label');
+  label.textContent = 'Sending...';
   btn.disabled = true;
   try {
     const res = await fetch('https://formspree.io/f/xlgvrdej', {
@@ -794,7 +832,7 @@ function closeSuccess() {
   overlay.style.display = 'none';
   document.body.style.overflow = '';
   const btn = document.getElementById('submitBtn');
-  btn.textContent = 'Send it →';
+  btn.querySelector('.shutter-label').textContent = 'Click to send';
   btn.disabled = false;
 }
 </script>
