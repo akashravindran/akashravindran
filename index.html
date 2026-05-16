@@ -424,6 +424,27 @@ footer{
 .f-links{display:flex;gap:24px;list-style:none}
 .f-links a{font-size:10px;letter-spacing:0.1em;text-transform:uppercase;color:var(--dimmer);text-decoration:none;transition:color 0.2s}
 .f-links a:hover{color:var(--fg)}
+#backTop{
+  position:fixed;bottom:32px;right:32px;
+  z-index:90;
+  background:none;
+  border:1px solid rgba(242,239,232,0.2);
+  color:rgba(242,239,232,0.4);
+  width:56px;height:56px;
+  border-radius:50%;
+  display:flex;flex-direction:column;
+  align-items:center;justify-content:center;
+  gap:3px;
+  cursor:pointer;
+  font-family:'Inter',sans-serif;
+  font-size:9px;letter-spacing:0.1em;text-transform:uppercase;
+  opacity:0;transform:translateY(8px);
+  transition:opacity 0.3s,transform 0.3s,border-color 0.2s,color 0.2s,background 0.2s;
+  pointer-events:none;
+}
+#backTop.visible{opacity:1;transform:none;pointer-events:all}
+#backTop:hover{background:var(--accent);border-color:var(--accent);color:var(--bg)}
+
 .f-copy{font-size:10px;color:var(--dimmer)}
 
 /* SUCCESS OVERLAY */
@@ -522,9 +543,9 @@ footer{
   <a href="#" class="logo">Akash Ravindran</a>
   <div class="nav-r">
     <ul class="nav-links">
-      <li><a href="#work">Work</a></li>
-      <li><a href="#about">About</a></li>
-      <li><a href="#shoot">Shoot with me</a></li>
+      <li><a href="#work">Frames</a></li>
+      <li><a href="#about">Lens</a></li>
+      <li><a href="#shoot">Roll</a></li>
     </ul>
     <a href="#contact" class="nav-hire">Hire me</a>
   </div>
@@ -571,7 +592,7 @@ footer{
 <!-- WORK -->
 <section id="work" class="work">
   <div class="sec-head reveal">
-    <span class="sec-tag">Selected work</span>
+    <span class="sec-tag">Frames</span>
     <span class="sec-tag">11 albums</span>
   </div>
   <div class="albums">
@@ -651,7 +672,7 @@ footer{
     <span class="about-img-label">Portraits — 2022</span>
   </div>
   <div class="about-text reveal">
-    <p class="about-kicker">About me</p>
+    <p class="about-kicker">Lens</p>
     <h2 class="about-h">Shooting for the love of it — and sometimes for yours too.</h2>
     <p class="about-p">I'm <strong>Akash Ravindran</strong>. I picked up a camera and never really put it down. Photography is first a hobby, but one I take seriously.</p>
     <p class="about-p">The travel albums — Rome, Venice, Switzerland, London — are personal. Shot because I was there and couldn't not. For clients, I focus on <strong>portraits</strong> that feel like the person and <strong>automotive shoots</strong> that do justice to the machine.</p>
@@ -663,7 +684,7 @@ footer{
 <!-- SERVICES -->
 <section id="shoot" class="services">
   <div class="sec-head reveal">
-    <span class="sec-tag">What I shoot for you</span>
+    <span class="sec-tag">Roll</span>
     <span class="sec-tag">Open to commissions</span>
   </div>
   <div class="svc-grid reveal">
@@ -728,12 +749,20 @@ footer{
   <button class="success-back" onclick="closeSuccess()">← Back to site</button>
 </div>
 
+<!-- BACK TO TOP -->
+<button id="backTop" onclick="window.scrollTo({top:0,behavior:'smooth'})" aria-label="Back to top">
+  <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+    <path d="M8 12V4M4 7l4-4 4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+  </svg>
+  <span>Top</span>
+</button>
+
 <footer>
   <span class="f-logo">Akash Ravindran</span>
   <ul class="f-links">
-    <li><a href="#work">Work</a></li>
-    <li><a href="#about">About</a></li>
-    <li><a href="#shoot">Shoot with me</a></li>
+    <li><a href="#work">Frames</a></li>
+    <li><a href="#about">Lens</a></li>
+    <li><a href="#shoot">Roll</a></li>
     <li><a href="#contact">Contact</a></li>
     <li><a href="https://instagram.com/akash.ravindran" target="_blank">Instagram ↗</a></li>
   </ul>
@@ -755,9 +784,10 @@ document.addEventListener('mousemove',e=>{
   requestAnimationFrame(loop);
 })();
 
-// Nav
-const nav=document.getElementById('nav');
+// Back to top
+const backTop = document.getElementById('backTop');
 window.addEventListener('scroll',()=>{
+  backTop.classList.toggle('visible', window.scrollY > 400);
   nav.classList.toggle('scrolled',window.scrollY>80);
 });
 
