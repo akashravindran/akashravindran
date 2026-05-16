@@ -397,14 +397,12 @@ footer{
 /* SUCCESS OVERLAY */
 #successOverlay{
   position:fixed;inset:0;
-  background:var(--bg);
-  z-index:999;
-  display:flex;flex-direction:column;
+  background:#0d0d0d;
+  z-index:9999;
+  display:none;
+  flex-direction:column;
   align-items:center;justify-content:center;
-  opacity:0;pointer-events:none;
-  transition:opacity 0.5s ease;
 }
-#successOverlay.show{opacity:1;pointer-events:all}
 .s-circle{
   stroke-dasharray:220;stroke-dashoffset:220;
   transition:stroke-dashoffset 0.7s ease 0.2s;
@@ -768,37 +766,36 @@ document.getElementById('contactForm').addEventListener('submit', async function
 
 function showSuccess() {
   const overlay = document.getElementById('successOverlay');
-  overlay.classList.add('show');
+  overlay.style.display = 'flex';
   document.body.style.overflow = 'hidden';
-  // Fire particles
-  setTimeout(() => {
-    for (let i = 0; i < 20; i++) {
-      const p = document.createElement('div');
-      p.className = 'particle';
-      const angle = (i / 20) * Math.PI * 2;
-      const dist = 80 + Math.random() * 120;
-      p.style.cssText = `
-        left:50%;top:38%;
-        --tx:${Math.cos(angle) * dist}px;
-        --ty:${Math.sin(angle) * dist}px;
-        animation-delay:${Math.random() * 0.3}s;
-        animation-duration:${0.8 + Math.random() * 0.4}s;
-        background:${Math.random() > 0.5 ? 'var(--accent)' : 'var(--fg)'};
-      `;
-      overlay.appendChild(p);
-      setTimeout(() => p.remove(), 1500);
-    }
-  }, 300);
+  requestAnimationFrame(() => {
+    requestAnimationFrame(() => {
+      overlay.classList.add('show');
+      setTimeout(() => {
+        const cx = window.innerWidth / 2;
+        const cy = window.innerHeight * 0.38;
+        for (let i = 0; i < 22; i++) {
+          const p = document.createElement('div');
+          p.className = 'particle';
+          const angle = (i / 22) * Math.PI * 2;
+          const dist = 70 + Math.random() * 110;
+          p.style.cssText = `left:${cx}px;top:${cy}px;--tx:${Math.cos(angle)*dist}px;--ty:${Math.sin(angle)*dist}px;animation-delay:${Math.random()*0.25}s;animation-duration:${0.8+Math.random()*0.4}s;background:${Math.random()>0.5?'#e8c547':'#f2efe8'};`;
+          overlay.appendChild(p);
+          setTimeout(() => p.remove(), 1600);
+        }
+      }, 300);
+    });
+  });
 }
 
 function closeSuccess() {
   const overlay = document.getElementById('successOverlay');
   overlay.classList.remove('show');
+  overlay.style.display = 'none';
   document.body.style.overflow = '';
   const btn = document.getElementById('submitBtn');
   btn.textContent = 'Send it →';
   btn.disabled = false;
-  btn.style.display = '';
 }
 </script>
 </body>
